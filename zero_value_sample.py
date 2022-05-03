@@ -79,7 +79,7 @@ def glitch(y):
     
     y = np.insert(y, r+1, block_zeros[0:block_length])
     y = np.delete(y, del_mask)
-    y[r:samples] += ring(y[r:samples], ring_a, ring_b)
+    y[r:samples] += ring(y[r:samples], ring_a, ring_b)  #known bug
     y += noise_array
 
     runtime = time.time() - start_time

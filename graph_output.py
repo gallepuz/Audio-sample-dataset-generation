@@ -51,6 +51,7 @@ def plot_glitch(y, r):
     plt.suptitle("Glitch Vicinity")
     plt.grid(True, 'both')
     plt.plot(y[(r - 100):(r + 100)])
+    plt.ylim(-1.2,1.2)
     
 def plot_start(y):
     
@@ -59,6 +60,7 @@ def plot_start(y):
     plt.suptitle("First 400 Samples")
     plt.grid(True, 'both')
     plt.plot(y[0:400])
+    plt.ylim(-1.2,1.2)
 
 def plot_runtime(r, runtime):
 

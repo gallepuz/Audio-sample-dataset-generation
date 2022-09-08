@@ -113,8 +113,8 @@ def glitch(y):
     #    noise_array, s_watts = gen_noise(y)
     noise_array, s_watts = gen_noise(y)
     r = np.random.randint(0, samplerate * length - 1)   
-    #block_length = np.random.randint(0, samples-r)
-    block_length = 1
+    block_length = np.random.randint(0, samples-r)          #needs its own method rather than being within glitchy
+    #block_length = 1
     
     del_mask = np.linspace(samples-1, samples+block_length-1, block_length, dtype=int)     
     
@@ -129,24 +129,6 @@ def glitch(y):
     runtime = time.time() - start_time
 
     return y, r, runtime, block_length                       #add runtime to a list so I can plot it when looping
-
-def new_dataset(length, samplerate, frequency, features):
-    start_time = time.time()
-    runtimes = []
-    glitches = []
-    print("Generating dataset...")
-    for _ in range(features):
-        phase = rand_phase()
-        y, r, runtime, block_length = glitch(new_sine(length, samplerate, frequency, phase))
-        runtimes.append(runtime)
-        glitches.append(r)
-        name = f"{avui}_{frequency}_{phase:.2f}_{r}_{samplerate}_{block_length}_{seed}_SAMPLE_DROP.csv"
-        with open(name, "w") as f:
-            f.write(",".join([format(x, ".9f") for x in y]))
-           
-    total_runtime = time.time() - start_time
-    print("Number of features:", features)
-    print("Generating the dataset took", total_runtime, "seconds.")
 
 #def main():
 #

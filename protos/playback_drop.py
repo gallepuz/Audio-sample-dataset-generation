@@ -3,6 +3,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import cfg
+import sample_gen as sg
 
 
 from scipy.io import wavfile
@@ -29,7 +30,7 @@ for i in phases:
     t = np.linspace(0., 1., samplerate)
     amp = np.iinfo(np.int16).max
     y = amp * np.sin(2. * np.pi * frequency * t)
-    w = full_script.find(phase_at_glitch[j], 19940, y, 100)
+    w = sg.find(phase_at_glitch[j], 19940, y, 100)
     y[w:] = 0
     print(w)
     plt.plot(y[10000:60300])

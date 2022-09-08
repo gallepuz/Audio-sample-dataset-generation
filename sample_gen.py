@@ -20,6 +20,7 @@ features    = cfg.fs       # dataset size
 dc_offset   = cfg.dc       
 seed        = cfg.sd
 sine_SNR_db = cfg.snr
+bl_len = cfg.bl
 
 ########################################################
 
@@ -104,6 +105,9 @@ def ring(x, a, b):
     
     return (np.exp(-a*x)*np.sin(2*np.pi*b*x))*(sign) #known overflow bug
 
+def rand_block_length(r):
+
+    return np.random.randint(0, samples-r)
 
 def glitch(y):
     
@@ -113,9 +117,12 @@ def glitch(y):
     #    noise_array, s_watts = gen_noise(y)
     noise_array, s_watts = gen_noise(y)
     r = np.random.randint(0, samplerate * length - 1)   
-    block_length = np.random.randint(0, samples-r)          #needs its own method rather than being within glitchy
-    #block_length = 1
     
+    if bl_len == "random":
+        block_length = rand_block_length(r)
+    else:
+        block_length = bl_len
+
     del_mask = np.linspace(samples-1, samples+block_length-1, block_length, dtype=int)     
     
     y = np.insert(y, r+1, block_zeros[0:block_length])

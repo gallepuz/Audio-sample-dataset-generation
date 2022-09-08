@@ -9,6 +9,7 @@ from matplotlib import offsetbox
 import numpy as np
 import matplotlib.pyplot as plt
 import cfg
+import graph_output as go
 
 from scipy.io import wavfile
 from datetime import date
@@ -157,39 +158,6 @@ def new_dataset(length, samplerate, frequency, features):
     print("Number of features:", features)
     print("Generating the dataset took", total_runtime, "seconds.")
 
-# Output methods
-
-def plot_glitch(y, r):
-    
-    #print(y[r-5:r+5])
-    plt.figure(figsize=(20, 4)) 
-    plt.subplot(131)
-    plt.suptitle("Glitch Vicinity")
-    plt.grid(True, 'both')
-    plt.plot(y[(r - 1000):(r + 1000)])
-    
-def plot_start(y):
-    
-    #print(y[r-5:r+5])
-    plt.figure(figsize=(20, 4)) 
-    plt.subplot(132)
-    plt.suptitle("First 400 Samples")
-    plt.grid(True, 'both')
-    plt.plot(y[0:400])
-
-def plot_runtime(r, runtime):
-
-    plt.figure(figsize=(20, 4))
-    plt.subplot(133)
-    plt.suptitle("Runtime per feature")
-    plt.grid(True, 'both')
-    plt.ylabel("Runtime (s)")
-    plt.xlabel("Glitched sample")
-    plt.plot(r, runtime, '.b', )
-
-def write_wav(y):
-    wavfile.write('Sine.wav', samplerate, y)
-
 def main():
 
     
@@ -211,15 +179,15 @@ def main():
     total_runtime = time.time() - start_time
     print(total_runtime)"""
     #phase = 0#rand_phase()
-    #y, r, runtime = glitch(new_sine(length, samplerate, frequency))
-    #plot_start(y)
-    #plot_glitch(y, r)
+    y, r, runtime, bl = glitch(new_sine(length, samplerate, frequency, rand_phase()))
+    go.plot_start(y)
+    go.plot_glitch(y, r)
     #print("DC offset is:", offset)
     #print("Starting phase is:", phase)
     #plt.figure(figsize=(20, 4))
     #plt.subplot(132)
     #plt.plot(gungan)
-    #plt.show()
+    plt.show()
 
 main()
 

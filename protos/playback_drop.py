@@ -3,7 +3,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import cfg
-import full_script
+
 
 from scipy.io import wavfile
 from datetime import date

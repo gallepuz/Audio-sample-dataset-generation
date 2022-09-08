@@ -5,13 +5,11 @@ Or use its functions for other stuff.
 
 from random import seed
 import time
-from matplotlib import offsetbox
 import numpy as np
 import matplotlib.pyplot as plt
 import cfg
 import graph_output as go
 
-from scipy.io import wavfile
 from datetime import date
 
 
@@ -19,9 +17,10 @@ samplerate  = cfg.sr
 frequency   = cfg.f
 length      = cfg.l        # In seconds
 features    = cfg.fs       # dataset size
-dc_offset   = cfg.dc       # 
+dc_offset   = cfg.dc       
 seed        = cfg.sd
 sine_SNR_db = cfg.snr
+
 ########################################################
 
 samples = samplerate * length
@@ -98,15 +97,12 @@ def gen_noise(source, start=None, end=None):
     
     return noise_array, s_watts
 
-def noise(y , z):
-    return y + z        #this is stupid
-
 def ring(x, a, b):
+    """Ringing proto"""
     
     sign = 1
     
     return (np.exp(-a*x)*np.sin(2*np.pi*b*x))*(sign) #known overflow bug
-
 
 
 def glitch(y):
@@ -131,8 +127,7 @@ def glitch(y):
     y += noise_array
 
     runtime = time.time() - start_time
-    
-    #print("runtime was:", runtime)
+
     return y, r, runtime, block_length                       #add runtime to a list so I can plot it when looping
 
 def new_dataset(length, samplerate, frequency, features):
@@ -145,54 +140,19 @@ def new_dataset(length, samplerate, frequency, features):
         y, r, runtime, block_length = glitch(new_sine(length, samplerate, frequency, phase))
         runtimes.append(runtime)
         glitches.append(r)
-        #plot_glitch(y, r)
-        #plot_start(y)
         name = f"{avui}_{frequency}_{phase:.2f}_{r}_{samplerate}_{block_length}_{seed}_SAMPLE_DROP.csv"
         with open(name, "w") as f:
             f.write(",".join([format(x, ".9f") for x in y]))
-        
-        
+           
     total_runtime = time.time() - start_time
-    #plot_runtime(glitches, runtimes)
-    #plt.show()
     print("Number of features:", features)
     print("Generating the dataset took", total_runtime, "seconds.")
 
-def main():
-
-    
-    #offset_onoff = input("add random offset to the signal? (y/n): ")
-    
-    """print(format_key)
-    start_time = time.time()
-    new_dataset(length, 44100, frequency, features)
-    np.random.seed(seed + 1)
-    new_dataset(length, 48000, frequency, features)
-    np.random.seed(seed + 2)
-    new_dataset(length, 88200, frequency, features)
-    np.random.seed(seed + 3)
-    new_dataset(length, 96000, frequency, features)
-    np.random.seed(seed + 4)
-    new_dataset(length, 176400, frequency, features)
-    np.random.seed(seed + 5)
-    new_dataset(length, 192000, frequency, features)
-    total_runtime = time.time() - start_time
-    print(total_runtime)"""
-    #phase = 0#rand_phase()
-    y, r, runtime, bl = glitch(new_sine(length, samplerate, frequency, rand_phase()))
-    go.plot_start(y)
-    go.plot_glitch(y, r)
-    #print("DC offset is:", offset)
-    #print("Starting phase is:", phase)
-    #plt.figure(figsize=(20, 4))
-    #plt.subplot(132)
-    #plt.plot(gungan)
-    plt.show()
-
-main()
-
-#plot_graph(y, r)
-#plot_runtime(r, runtime)
-
-#print("Iteration took", runtime, "seconds")
-#print("Glitch at", r)
+#def main():
+#
+#    y, r, runtime, bl = glitch(new_sine(length, samplerate, frequency, rand_phase()))
+#    go.plot_start(y)
+#    go.plot_glitch(y, r)
+#    plt.show()
+#
+#main()

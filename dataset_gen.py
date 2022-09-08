@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cfg
 import sample as smp
+import graph_output as go
 
 from scipy.io import wavfile
 
@@ -105,44 +106,44 @@ def new_dataset(length, samplerate, frequency, features):
 
 # Output methods
 
-def plot_glitch(y, r):
-    
-    #print(y[r-5:r+5])
-    plt.figure(figsize=(20, 4)) 
-    plt.subplot(131)
-    plt.suptitle("Glitch Vicinity")
-    plt.grid(True, 'both')
-    plt.plot(y[(r - 100):(r + 100)])
-    
-def plot_start(y):
-    
-    #print(y[r-5:r+5])
-    plt.figure(figsize=(20, 4)) 
-    plt.subplot(132)
-    plt.suptitle("First 400 Samples")
-    plt.grid(True, 'both')
-    plt.plot(y[0:400])
-
-def plot_runtime(r, runtime):
-
-    plt.figure(figsize=(20, 4))
-    plt.subplot(133)
-    plt.suptitle("Runtime per feature")
-    plt.grid(True, 'both')
-    plt.ylabel("Runtime (s)")
-    plt.xlabel("Glitched sample")
-    plt.plot(r, runtime, '.b', )
-
-def write_wav():
-    wavfile.write('Sine.wav', samplerate, y)
+#def plot_glitch(y, r):
+#    
+#    #print(y[r-5:r+5])
+#    plt.figure(figsize=(20, 4)) 
+#    plt.subplot(131)
+#    plt.suptitle("Glitch Vicinity")
+#    plt.grid(True, 'both')
+#    plt.plot(y[(r - 100):(r + 100)])
+#    
+#def plot_start(y):
+#    
+#    #print(y[r-5:r+5])
+#    plt.figure(figsize=(20, 4)) 
+#    plt.subplot(132)
+#    plt.suptitle("First 400 Samples")
+#    plt.grid(True, 'both')
+#    plt.plot(y[0:400])
+#
+#def plot_runtime(r, runtime):
+#
+#    plt.figure(figsize=(20, 4))
+#    plt.subplot(133)
+#    plt.suptitle("Runtime per feature")
+#    plt.grid(True, 'both')
+#    plt.ylabel("Runtime (s)")
+#    plt.xlabel("Glitched sample")
+#    plt.plot(r, runtime, '.b', )
+#
+#def write_wav():
+#    wavfile.write('Sine.wav', samplerate, y)
 
 def main():
 
     #new_dataset(2, 44100, 997, 1)
     phase = smp.rand_phase()
     y, r, runtime = smp.glitch(smp.new_sine(length, samplerate, frequency))
-    plot_start(y)
-    plot_glitch(y, r)
+    go.plot_start(y)
+    go.plot_glitch(y, r)
     #print("DC offset is:", offset)
     print("Starting phase is:", phase)
     #plt.figure(figsize=(20, 4))

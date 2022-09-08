@@ -14,7 +14,6 @@ samplerate  = cfg.sr
 
 def plot_glitch(y, r):
     
-    #print(y[r-5:r+5])
     plt.figure(figsize=(4, 4)) 
     plt.suptitle("Glitch Vicinity")
     plt.grid(True, 'both')
@@ -23,7 +22,6 @@ def plot_glitch(y, r):
     
 def plot_start(y):
     
-    #print(y[r-5:r+5])
     plt.figure(figsize=(4, 4)) 
     plt.suptitle("First 400 Samples")
     plt.grid(True, 'both')

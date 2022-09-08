@@ -1,4 +1,4 @@
-## Test sinewave dataset creator 
+## Glitched sinewave dataset creator 
 
 A script that generates a dataset of commonly found glitches in realtime digital audio transceiving and conversion. The samples in the dataset are fully featured renders of a sinewave in the analog domain (as if recorded by AD converter) with configurable SNR, DC offset, ringing (WIP), samplerate, seed, frequency and length.
 
